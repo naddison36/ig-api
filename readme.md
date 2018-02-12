@@ -86,13 +86,12 @@ isDemo    | boolean | false    | Is the API key associated with a demo account? 
 options   | object  | false    | See [options](#options) for more information
 
 <a name="api-login"></a>
-### `login(username, password, encryptPassword, options)`
+### `login(username, password, options)`
 
 parameter       | type    | required | description
 ----------------|---------|----------|------------
 username        | string  | true     | Account user name
 password        | string  | true     | Account password
-encryptPassword | boolean | false    | Encrypt password before posting to API. Defaults to false
 options         | object  | false    | See [options](#options) for more information
 
 <a name="api-logout"></a>

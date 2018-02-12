@@ -14,17 +14,6 @@ test('login to account', async () => {
   }
 })
 
-test('login to account with encrypted password', async () => {
-  expect.hasAssertions()
-  try {
-    const ig = new IG(account.apiKey, account.isDemo)
-    const result = await ig.login(account.username, account.password, true)
-    expect(result).toHaveProperty('accounts')
-  } catch (error) {
-    console.error(error)
-  }
-})
-
 test('logout from account', async () => {
   expect.hasAssertions()
   try {

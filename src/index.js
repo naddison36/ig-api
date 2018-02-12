@@ -3,7 +3,6 @@ import {
   uniqueId,
   getOption,
   isFunction,
-  publicEncrypt,
   transformError,
   transformResponse
 } from './utils'
@@ -52,27 +51,17 @@ export default class IG {
     return this.request('delete', path, version, { data }, options)
   }
 
-  login(username, password, encryptPassword, options) {
-    const encryptedPassword = encryptPassword === true
-    const processPassword = encryptedPassword ?
-      this.get('session/encryptionKey', 1, null, {
-        transformResponse: transformResponse
-      }).then(({ encryptionKey, timeStamp }) => {
-        return publicEncrypt(encryptionKey, `${password}|${timeStamp}`)
-      }) : Promise.resolve(password)
-
-    return processPassword.then((result) => {
-      return this.post('session', 2, {
-        encryptedPassword,
-        identifier: username,
-        password: result
-      }, {
-        transformResponse: false
-      }).then((response) => {
-        setHeaderTokens(this.api, response)
-        const transformRes = getOption('transformResponse', options, this.defaults)
-        return isFunction(transformRes) ? transformRes(response) : response
-      })
+  login(username, password, options) {
+    return this.post('session', 2, {
+      encryptedPassword: false,
+      identifier: username,
+      password: password
+    }, {
+      transformResponse: false
+    }).then((response) => {
+      setHeaderTokens(this.api, response)
+      const transformRes = getOption('transformResponse', options, this.defaults)
+      return isFunction(transformRes) ? transformRes(response) : response
     })
   }
 
